@@ -1,0 +1,45 @@
+---
+import { Button } from '@/components/ui/button';
+---
+<section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-sand-50 via-sand-100 to-ocean-500/10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl md:text-6xl font-serif font-bold text-ocean-500 mb-6">
+        Begin Your Journey
+        <br />
+        <span class="bg-gradient-to-r from-ocean-500 to-sage-500 bg-clip-text text-transparent">with Confidence</span>
+      </h2>
+      
+      <p class="text-xl md:text-2xl text-storm-500 max-w-2xl mx-auto leading-relaxed mb-8">
+        Join a thoughtful community of developers who value precision and reliability
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+        <Button 
+          size="lg" 
+          className="bg-sage-500 hover:bg-sage-500/90 text-white font-medium px-8 py-4 rounded-full text-lg gentle-shadow hover:shadow-lg cursor-pointer transition-all duration-300"
+        >
+          Start Free
+        </Button>
+        <a href="/docs/getting-started/">
+          <Button 
+            variant="ghost" 
+            size="lg"
+            className="text-ocean-500 hover:text-ocean-500/80 font-medium px-8 py-4 text-lg transition-all duration-300 cursor-pointer"
+          >
+            View Documentation
+          </Button>
+        </a>
+      </div>
+
+      <div class="text-sm text-storm-500">
+        1,000 validations included • Start in seconds
+      </div>
+
+      {/* Decorative elements */}
+      <div class="mt-16 flex justify-center space-x-12 opacity-60">
+        <div class="w-2 h-2 bg-sage rounded-full animate-gentle-bounce"></div>
+        <div class="w-2 h-2 bg-amber rounded-full animate-gentle-bounce animation-delay-200"></div>
+        <div class="w-2 h-2 bg-navy rounded-full animate-gentle-bounce animation-delay-400"></div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,118 @@
+---
+import { Heart, Mail } from '@lucide/astro';
+import Logo from '../../public/favicon.svg'
+import GithubIcon from '../../public/github.svg'
+---
+
+<footer class="relative">
+  <div class="bg-ocean-500 text-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Main Footer Content -->
+      <div class="py-16">
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-12">
+          <!-- Brand Section -->
+          <div class="lg:col-span-1">
+            <div class="flex items-center space-x-2 mb-6">
+              <div class="w-9 h-9 bg-gradient-to-br from-sage-500 to-ocean-500 rounded-lg flex items-center justify-center">
+                <Logo width={32} height={32} class="text-white" />
+              </div>
+              <span class="font-serif font-semibold text-xl">
+                Valid Mint
+              </span>
+            </div>
+            <p class="text-white/80 mb-6 leading-relaxed">
+              A reliable email validation API that respects your time and data. 
+              Smart domain extraction, comprehensive security analysis, and consistent performance.
+            </p>
+            <div class="flex space-x-4">
+              <a 
+                href="https://github.com/bernardogazola" 
+                target="_blank"
+                class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
+                aria-label="View our GitHub"
+              >
+                <GithubIcon width={20} height={20} />
+              </a>
+              <a 
+                href="mailto:support@validmint.com" 
+                class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
+                aria-label="Contact us via email"
+              >
+                <Mail class="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          <!-- Product Links -->
+          <div>
+            <h3 class="font-serif font-semibold text-lg mb-6">Product</h3>
+            <ul class="space-y-4">
+              <li>
+                <a href="/docs/getting-started" class="text-white/80 hover:text-white transition-colors">
+                  Getting Started
+                </a>
+              </li>
+              <li>
+                <a href="/docs/api/validate" class="text-white/80 hover:text-white transition-colors">
+                  Full Validation
+                </a>
+              </li>
+              <li>
+                <a href="/docs/api/fast-validate" class="text-white/80 hover:text-white transition-colors">
+                  Fast Validation
+                </a>
+              </li>
+              <li>
+                <a href="/docs/pricing" class="text-white/80 hover:text-white transition-colors">
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a href="/docs/data-policy" class="text-white/80 hover:text-white transition-colors">
+                  Data Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Resources Links -->
+          <div>
+            <h3 class="font-serif font-semibold text-lg mb-6">Resources</h3>
+            <ul class="space-y-4">
+              <li>
+                <a href="/docs/getting-started" class="text-white/80 hover:text-white transition-colors">
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <a href="https://rapidapi.com/validmint/api/email-domain-validator" target="_blank" class="text-white/80 hover:text-white transition-colors">
+                  RapidAPI Marketplace
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="py-6 border-t border-white/10">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div class="text-white/60 text-sm">
+            © 2025 Valid Mint. All rights reserved.
+          </div>
+          <div class="text-white/60 text-sm">
+            Made with <Heart class="w-4 h-4 inline-block" /> by <a href="https://github.com/bernardogazola" target="_blank" class="text-white/60 hover:text-white transition-colors">bernardogazola</a>
+          </div>
+          <div class="flex space-x-6 text-sm">
+            <a href="/privacy" class="text-white/60 hover:text-white transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/terms" class="text-white/60 hover:text-white transition-colors">
+              Terms of Service
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

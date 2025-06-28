@@ -1,0 +1,158 @@
+---
+title: Data Policy
+description: Transparent data handling practices for the Email Domain Validation API
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Badge, Aside, Steps, Tabs, TabItem, LinkCard } from '@astrojs/starlight/components';
+
+<div class="flex flex-col items-center gap-2">
+  <Badge text="Zero Storage Policy" variant="success" size="large" />
+  <div class="text-sm">
+    Last Updated: June 2025
+  </div>
+</div>
+
+## Our Core Principle
+
+<Aside type="tip" title="Zero Data Storage">
+  We are a **stateless, zero-storage validation service**. We process your request, return results, and immediately discard all data from memory.
+</Aside>
+
+## How It Works
+
+<Steps>
+
+1. **You send** a domain or email to validate
+
+2. **We process** it entirely in memory using:
+   - Public DNS records
+   - Disposable domain databases
+   - Typo detection algorithms
+
+3. **We return** validation results instantly
+
+4. **We forget** everything immediately
+
+</Steps>
+
+## What We Handle
+
+<CardGrid>
+  <Card title="Input" icon="random">
+    - Domain names (e.g., `example.com`)
+    - Email addresses (we extract the domain)
+    - Optional request IDs for tracking
+  </Card>
+  
+  <Card title="Output" icon="seti:json">
+    - Validation results
+    - Risk scores
+    - DNS record status
+    - Typo suggestions
+  </Card>
+</CardGrid>
+
+## Privacy Guarantees
+
+<CardGrid stagger>
+  <Card title="No Storage" icon="seti:db">
+    Zero databases, files, or caches containing your submitted data
+  </Card>
+  
+  <Card title="No Tracking" icon="close">
+    No user profiles, session tracking, or usage history
+  </Card>
+  
+  <Card title="No Sharing" icon="seti:lock">
+    Your data is never shared, sold, or used for any other purpose
+  </Card>
+  
+  <Card title="No Logs" icon="document">
+    System logs contain only performance metrics, never your data
+  </Card>
+</CardGrid>
+
+## Security
+
+<Tabs>
+  <TabItem label="In Transit" icon="seti:lock">
+    - **HTTPS/TLS encryption** for all API calls
+    - **DNS-over-HTTPS** for secure DNS queries
+    - **No plaintext** transmission
+  </TabItem>
+  
+  <TabItem label="At Rest" icon="seti:db">
+    <div class="flex flex-col items-center gap-2">
+      <div class="text-lg font-bold text-green-500">
+        ✅ There is NO data at rest
+      </div>
+      <div class="text-sm">
+        We can't secure what we don't store
+      </div>
+    </div>
+  </TabItem>
+</Tabs>
+
+## RapidAPI Integration ❗️
+
+<Aside type="danger" title="Platform Notice">
+  Our API is **exclusively available through RapidAPI marketplace**. While we maintain zero-storage practices, RapidAPI handles authentication, billing, and may log requests according to their policies.
+</Aside>
+
+<CardGrid>
+  <Card title="Our Responsibility" icon="approve-check">
+    - Zero-storage validation
+    - Secure processing
+    - Accurate results
+  </Card>
+  
+  <Card title="RapidAPI's Domain" icon="seti:config">
+    - User accounts
+    - API keys
+    - Request routing
+    - Usage analytics
+  </Card>
+</CardGrid>
+
+<LinkCard
+  title="View RapidAPI Privacy Policy"
+  href="https://rapidapi.com/privacy/"
+  target="_blank"
+  description="Understand how RapidAPI handles your data"
+/>
+
+## Compliance
+
+<div class="flex justify-center gap-2">
+  <Badge text="GDPR Compliant" variant="success" />
+  <Badge text="CCPA Compliant" variant="success" />
+  <Badge text="Privacy by Design" variant="success" />
+</div>
+
+Our zero-storage architecture ensures automatic compliance with data protection regulations worldwide. There's no data to access, delete, or export because nothing is stored.
+
+## Questions?
+
+For detailed technical specifications and legal language:
+
+<LinkCard
+  title="Full Privacy Policy"
+  href="/privacy"
+  description="Complete Privacy Policy with technical details"
+/>
+
+<LinkCard
+  title="Terms of Service"
+  href="/terms"
+  description="Complete Terms of Service"
+/>
+
+<Aside type="note" title="Quick Summary">
+  **We validate domains without storing them.** That's it. Your privacy is guaranteed by our architecture, not just our promise.
+</Aside>
+
+---
+
+*Questions? Contact us through RapidAPI support or [GitHub](https://github.com/bernardogazola).*

@@ -1,0 +1,158 @@
+---
+import { Button } from '@/components/ui/button';
+import { Menu, Shield, X } from '@lucide/astro';
+import Logo from '../../public/favicon.svg'
+---
+
+<nav 
+  id="navigation"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  data-nav
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+          <Logo width={32} height={32} />
+        <span class="font-serif font-semibold text-ocean-500 text-lg">
+          Valid Mint
+        </span>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#features" class="text-storm-500 hover:text-ocean-500 transition-colors">
+          Features
+        </a>
+        <a href="#pricing" class="text-storm-500 hover:text-ocean-500 transition-colors">
+          Pricing
+        </a>
+        <a href="/docs/getting-started" class="text-storm-500 hover:text-ocean-500 transition-colors">
+          Docs
+        </a>
+        <Button 
+          className="bg-coral-400 hover:bg-coral-500 text-white border-0 rounded-full px-6 cursor-pointer"
+        >
+          Start Free
+        </Button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        class="md:hidden p-2 text-storm-500 hover:text-ocean-500 transition-colors"
+        id="mobile-menu-toggle"
+        aria-label="Toggle mobile menu"
+      >
+        <span class="menu-icon">
+          <Menu class="w-6 h-6" />
+        </span>
+        <span class="close-icon hidden">
+          <X class="w-6 h-6" />
+        </span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu - Dropdown Style -->
+    <div 
+      id="mobile-menu"
+      class="md:hidden overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0"
+    >
+      <div class="glass-morphism rounded-lg p-6 space-y-4 mt-4">
+        <a 
+          href="#features" 
+          class="block text-lg text-storm-500 hover:text-ocean-500 transition-colors py-2"
+        >
+          Features
+        </a>
+        <a 
+          href="#pricing" 
+          class="block text-lg text-storm-500 hover:text-ocean-500 transition-colors py-2"
+        >
+          Pricing
+        </a>
+        <a 
+          href="/docs/getting-started/" 
+          class="block text-lg text-storm-500 hover:text-ocean-500 transition-colors py-2"
+        >
+          Docs
+        </a>
+        <div class="pt-2 border-t border-sand-200">
+          <Button 
+            className="w-full bg-coral-400 hover:bg-coral-500 text-white border-0 rounded-full py-3"
+          >
+            Start Free
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Handle scroll effect
+  let isScrolled = false;
+  const nav = document.querySelector('[data-nav]') as HTMLElement;
+  
+  function updateNavStyle() {
+    const scrollY = window.scrollY;
+    const shouldBeScrolled = scrollY > 50;
+    
+    if (shouldBeScrolled !== isScrolled) {
+      isScrolled = shouldBeScrolled;
+      if (isScrolled) {
+        nav.classList.add('glass-morphism', 'shadow-sm');
+        nav.classList.remove('bg-transparent');
+      } else {
+        nav.classList.remove('glass-morphism', 'shadow-sm');
+        nav.classList.add('bg-transparent');
+      }
+    }
+  }
+  
+  window.addEventListener('scroll', updateNavStyle);
+  updateNavStyle(); // Initial check
+  
+  // Handle mobile menu
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = mobileMenuToggle?.querySelector('.menu-icon');
+  const closeIcon = mobileMenuToggle?.querySelector('.close-icon');
+  let isMobileMenuOpen = false;
+  
+  function toggleMobileMenu() {
+    isMobileMenuOpen = !isMobileMenuOpen;
+    
+    if (isMobileMenuOpen) {
+      mobileMenu?.classList.remove('max-h-0', 'opacity-0');
+      mobileMenu?.classList.add('max-h-96', 'opacity-100');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+    } else {
+      mobileMenu?.classList.add('max-h-0', 'opacity-0');
+      mobileMenu?.classList.remove('max-h-96', 'opacity-100');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  }
+  
+  function closeMobileMenu() {
+    if (isMobileMenuOpen) {
+      toggleMobileMenu();
+    }
+  }
+  
+  mobileMenuToggle?.addEventListener('click', toggleMobileMenu);
+  
+  // Close mobile menu when clicking links
+  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+  
+  // Close mobile menu on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMobileMenuOpen) {
+      closeMobileMenu();
+    }
+  });
+</script>

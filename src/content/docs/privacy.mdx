@@ -1,0 +1,412 @@
+---
+title: Privacy Policy
+description: Data Protection & Privacy Policy
+---
+
+**Document Version:** 1.0  
+**Last Updated:** June 2025  
+**Effective Date:** June 2025
+
+## Executive Summary
+
+The Valid Mint - Email Domain Validation API ("Service") operates on a **zero-knowledge, zero-storage** architecture. This policy details our commitment to data protection and privacy through technical design that makes data retention impossible.
+
+**Core Privacy Guarantee:** We process validation requests in real-time memory only. No user-submitted data is ever written to disk, logged, or retained in any form.
+
+## 1. Scope and Definitions
+
+### 1.1 Service Description
+
+The Valid Mint - Email Domain Validation API provides real-time validation of email domains through DNS lookups, disposable domain detection, and deliverability analysis.
+
+### 1.2 Key Definitions
+
+- **User Data**: Any domain name or email address submitted for validation
+- **Validation Data**: Results generated from processing user data
+- **Public Data**: DNS records and known disposable domain lists
+- **Zero-Storage Architecture**: Technical design preventing any persistent storage of user data
+
+### 1.3 Policy Scope
+
+This policy applies to all data processing activities performed by our API service. It does not cover data handling by third-party platforms (see Section 9).
+
+## 2. Data Categories and Processing
+
+### 2.1 Input Data Categories
+
+| Data Type       | Example            | Processing             | Retention           |
+| --------------- | ------------------ | ---------------------- | ------------------- |
+| Domain Names    | `example.com`      | Real-time validation   | None (0 seconds)    |
+| Email Addresses | `user@example.com` | Domain extraction only | None (0 seconds)    |
+| Request IDs     | `req-123-abc`      | Request correlation    | Duration of request |
+| API Keys        | Via RapidAPI       | Authentication only    | Not processed by us |
+
+### 2.2 Generated Data Categories
+
+| Data Type           | Purpose              | Retention                     |
+| ------------------- | -------------------- | ----------------------------- |
+| Validation Results  | API response payload | Duration of HTTP response     |
+| Request UUIDs       | Request tracking     | Duration of request           |
+| Performance Metrics | Service monitoring   | Aggregated only, no user data |
+| Error Messages      | Debugging            | Generic only, no user data    |
+
+### 2.3 Data We Never Collect
+
+- Personal identifying information beyond domain names
+- IP addresses (handled by infrastructure layer)
+- Browser fingerprints or device information
+- Usage patterns or behavioral data
+- Email content or metadata
+
+## 3. Technical Privacy Implementation
+
+### 3.1 Zero-Storage Architecture
+
+Our technical architecture enforces privacy through design:
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   Request   │────▶│  In-Memory   │────▶│  Response   │
+│   (Input)   │     │  Processing  │     │  (Output)   │
+└─────────────┘     └──────────────┘     └─────────────┘
+                           │
+                           ▼
+                    [Immediate Disposal]
+```
+
+**Technical Guarantees:**
+
+- ✅ No database connections for user data
+- ✅ No file system writes of user data
+- ✅ No persistent caching of user inputs
+- ✅ No session management or state tracking
+- ✅ Memory cleared after each request
+
+### 3.2 Processing Pipeline
+
+| Stage              | Action                   | Data Handling |
+| ------------------ | ------------------------ | ------------- |
+| 1. Input Reception | Receive domain/email     | Memory only   |
+| 2. Validation      | Parse and extract domain | Memory only   |
+| 3. DNS Lookup      | Query public DNS         | No storage    |
+| 4. Analysis        | Check disposable/typos   | Memory only   |
+| 5. Response        | Return JSON results      | Memory only   |
+| 6. Cleanup         | Clear all variables      | Automatic GC  |
+
+### 3.3 Stateless Design Principles
+
+- **Request Isolation**: Each API call is completely independent
+- **No Correlation**: Impossible to link requests from same user
+- **No History**: Previous validations cannot be retrieved
+- **No Learning**: Service doesn't adapt based on usage
+- **Idempotent Operations**: Same input always produces same output
+
+## 4. Security and Privacy Controls
+
+### 4.1 Logging and Monitoring
+
+#### What We Log
+
+| Log Type      | Data Included                       | Data Excluded                |
+| ------------- | ----------------------------------- | ---------------------------- |
+| Access Logs   | Timestamp, HTTP method, Status code | Domain names, IP addresses   |
+| Error Logs    | Error type, Stack trace             | User inputs, Request content |
+| Performance   | Response time, Cache metrics        | Specific domains validated   |
+| Health Checks | Service status, Uptime              | No user data involved        |
+
+#### Logging Security Measures
+
+- Structured logging with explicit field filtering
+- Automatic redaction of potential user data
+- Log rotation without long-term storage
+- No query parameter logging
+
+### 4.2 Caching Strategy
+
+**DNS Response Cache:**
+
+- **Purpose**: Improve performance for common DNS queries
+- **Key Design**: Hashed DNS responses, not domain names
+- **Scope**: Public DNS data only
+- **Duration**: 5-minute TTL
+- **Privacy**: Cannot reverse-engineer queried domains
+
+### 4.3 Cryptographic Controls
+
+```rust
+// Example: How we handle sensitive operations
+pub fn process_domain(input: &str) -> ValidationResult {
+    let domain = extract_domain(input);
+    let result = validate(domain);
+    // domain variable goes out of scope here
+    // Rust's ownership ensures memory cleanup
+    result
+}
+```
+
+## 5. External Data Sources and Integrations
+
+### 5.1 Public Data Sources
+
+| Source Type                     | Purpose             | Privacy Impact       |
+| ------------------------------- | ------------------- | -------------------- |
+| Public DNS (Cloudflare, Google) | Domain verification | No user data shared  |
+| Disposable Domain Lists         | Spam detection      | Public datasets only |
+| Major Email Providers           | Typo detection      | Public provider list |
+| IANA TLD Database               | Domain validation   | Public registry data |
+
+### 5.2 Data Flow Isolation
+
+```
+User Request → Our API → Public DNS
+     ↓             ↓         ↓
+[No Storage] [No Logging] [No Tracking]
+```
+
+### 5.3 Third-Party Privacy Commitments
+
+- **DNS Queries**: Use DNS-over-HTTPS for privacy
+- **No Data Enrichment**: We don't enhance data with third-party services
+- **No Analytics Services**: No Google Analytics, Mixpanel, etc.
+- **No CDN Tracking**: Static assets served without user tracking
+
+## 6. Infrastructure Security
+
+### 6.1 Network Security
+
+| Layer          | Protection       | Implementation                  |
+| -------------- | ---------------- | ------------------------------- |
+| Transport      | TLS 1.3+         | All API endpoints HTTPS-only    |
+| DNS            | DoH/DoT          | Encrypted DNS resolution        |
+| Application    | Input validation | Strict domain format validation |
+| Infrastructure | Firewall rules   | Minimal attack surface          |
+
+### 6.2 Application Security
+
+**Memory Safety:**
+
+- Written in Rust for memory safety guarantees
+- No buffer overflows or use-after-free vulnerabilities
+- Automatic memory cleanup via RAII
+
+**Input Validation:**
+
+```
+// Domain validation example
+- Maximum length: 253 characters
+- Valid characters: a-z, 0-9, hyphen, dot
+- No SQL injection possible (no database)
+- No path traversal (no file operations)
+```
+
+### 6.3 Operational Security
+
+- **Deployment**: Immutable container deployments
+- **Updates**: Automated security patches
+- **Monitoring**: Performance metrics only, no user data
+- **Incident Response**: Service restart clears all memory
+
+## 7. Regulatory Compliance
+
+### 7.1 GDPR (General Data Protection Regulation)
+
+| GDPR Article                  | Requirement                        | Our Implementation     |
+| ----------------------------- | ---------------------------------- | ---------------------- |
+| Art. 5 - Principles           | Lawfulness, fairness, transparency | Zero-storage design    |
+| Art. 17 - Right to Erasure    | Delete personal data               | No data to delete      |
+| Art. 20 - Data Portability    | Export user data                   | No data to export      |
+| Art. 25 - Privacy by Design   | Built-in privacy                   | Stateless architecture |
+| Art. 32 - Security            | Appropriate measures               | TLS, memory safety     |
+| Art. 33 - Breach Notification | Report breaches                    | No data to breach      |
+
+**Legal Basis**: Legitimate interest in providing validation service without data retention
+
+### 7.2 CCPA (California Consumer Privacy Act)
+
+| CCPA Right                  | Consumer Right      | Our Status         |
+| --------------------------- | ------------------- | ------------------ |
+| Right to Know               | What data collected | None stored        |
+| Right to Delete             | Request deletion    | N/A - no storage   |
+| Right to Opt-Out            | Stop selling data   | We never sell data |
+| Right to Non-Discrimination | Equal service       | Universal service  |
+
+### 7.3 Global Privacy Framework Alignment
+
+- **PIPEDA (Canada)**: ✅ Compliant - no personal information retained
+- **LGPD (Brazil)**: ✅ Compliant - no data subject information stored
+- **POPIA (South Africa)**: ✅ Compliant - processing without retention
+- **APPI (Japan)**: ✅ Compliant - no personal information handling
+- **Privacy Act (Australia)**: ✅ Compliant - no personal information collected
+
+### 7.4 Industry Standards
+
+- **ISO/IEC 27001**: Information security management aligned
+- **SOC 2 Type II**: Privacy and security controls in place
+- **NIST Cybersecurity Framework**: Technical controls implemented
+- **OWASP Top 10**: Security vulnerabilities addressed by design
+
+## 8. Your Privacy Rights
+
+### 8.1 Universal Rights (Regardless of Location)
+
+| Right                    | Traditional Service       | Our Service                        |
+| ------------------------ | ------------------------- | ---------------------------------- |
+| **Access Your Data**     | Request data copy         | No data exists to access           |
+| **Correct Your Data**    | Update stored records     | No records to correct              |
+| **Delete Your Data**     | Request removal           | Nothing to delete                  |
+| **Port Your Data**       | Export to another service | No data to transfer                |
+| **Object to Processing** | Stop data use             | Processing stops when request ends |
+| **Restrict Processing**  | Limit data use            | Already maximally restricted       |
+
+### 8.2 How to Exercise Rights
+
+Since we don't store data, traditional privacy rights are automatically fulfilled:
+
+1. **Want your data deleted?** ✅ Already done (never stored)
+2. **Want to see what we have?** ✅ Nothing to show
+3. **Want to stop tracking?** ✅ Never started
+
+## 9. Third-Party Platform Disclosure (RapidAPI)
+
+### 9.1 Distribution Model
+
+**CRITICAL NOTICE**: This API is distributed exclusively through RapidAPI marketplace. Understanding the complete data handling requires reviewing both this policy and RapidAPI's policies.
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│    User     │────▶│  RapidAPI   │────▶│   Our API   │
+│             │◀────│  Platform   │◀────│  (No Logs)  │
+└─────────────┘     └─────────────┘     └─────────────┘
+                           │
+                    [Platform Logs]
+```
+
+### 9.2 Responsibility Matrix
+
+| Component             | Responsibility          | Data Handling            |
+| --------------------- | ----------------------- | ------------------------ |
+| **Our API Service**   | Domain validation logic | Zero storage, no logs    |
+| **RapidAPI Platform** | All platform features   | Per their privacy policy |
+
+**RapidAPI Platform Controls:**
+
+- ✓ User authentication and accounts
+- ✓ API key generation and management
+- ✓ Rate limiting and quotas
+- ✓ Billing and payment processing
+- ✓ Usage analytics and metrics
+- ✓ Request/response logging
+- ✓ Geographic request routing
+
+### 9.3 Important Privacy Considerations
+
+⚠️ **While we guarantee zero data storage in our service, RapidAPI may:**
+
+- Log all API requests and responses
+- Store usage patterns and analytics
+- Retain data per their retention policies
+- Share data with their service providers
+- Use data for platform improvements
+
+### 9.4 Data Flow Transparency
+
+| Stage                | Handler       | Potential Data Collection  |
+| -------------------- | ------------- | -------------------------- |
+| 1. API Request       | RapidAPI      | May log full request       |
+| 2. Authentication    | RapidAPI      | Validates API key          |
+| 3. Rate Limiting     | RapidAPI      | Tracks usage counts        |
+| 4. Request Forward   | RapidAPI → Us | We process without storage |
+| 5. Response Return   | Us → RapidAPI | We send results only       |
+| 6. Response Delivery | RapidAPI      | May log full response      |
+| 7. Billing           | RapidAPI      | Counts for billing         |
+
+### 9.5 Required Reading for Complete Privacy Picture
+
+1. **This Policy**: Covers our zero-storage guarantee (Steps 4-5 above)
+2. **[RapidAPI Privacy Policy](https://rapidapi.com/privacy/)**: Covers platform data handling (Steps 1-3, 6-7)
+3. **[RapidAPI Terms of Service](https://rapidapi.com/terms/)**: Legal framework for platform use
+
+### 9.6 Privacy-Conscious Usage Recommendations
+
+If maximum privacy is required:
+
+- Consider implementing client-side caching to minimize API calls
+- Use generic test domains when testing integration
+- Implement your own request aggregation to reduce platform visibility
+- Review RapidAPI's data export options for any stored data
+
+## 10. Policy Governance
+
+### 10.1 Change Management
+
+**Version Control:**
+
+- All policy changes tracked in git repository
+- Semantic versioning for material changes
+- Change log maintained for transparency
+
+**Notification Process:**
+
+- API documentation updated immediately
+- RapidAPI marketplace listing updated
+- No user notification needed (no user data to affect)
+
+### 10.2 Policy Review Schedule
+
+| Review Type        | Frequency   | Scope                      |
+| ------------------ | ----------- | -------------------------- |
+| Technical Accuracy | Quarterly   | Implementation alignment   |
+| Legal Compliance   | Bi-annually | Regulatory updates         |
+| Security Review    | Quarterly   | Threat landscape changes   |
+| Full Review        | Annually    | Complete policy assessment |
+
+### 10.3 Immutable Principles
+
+The following will NEVER change:
+
+1. Zero user data storage architecture
+2. No logging of submitted domains
+3. Stateless request processing
+4. No user tracking or profiling
+
+## 10. Executive Summary for Privacy Teams
+
+**For Corporate Privacy Officers:**
+
+The Valid Mint - Email Domain Validation API represents a privacy-first approach to domain validation services. By implementing a stateless, zero-storage architecture, we eliminate traditional privacy risks associated with data processing services.
+
+**Key Differentiators:**
+
+1. **Technical Impossibility**: Not policy-based privacy, but architecture-based
+2. **No Data Lifecycle**: No creation, storage, retention, or deletion phases
+3. **Compliance Simplification**: No data means simplified compliance
+4. **Audit Trail**: No user data trail exists to audit
+5. **Breach Immunity**: No stored data means no data breaches
+
+**Risk Assessment:**
+
+- **Data Breach Risk**: None (no data storage)
+- **Compliance Risk**: Minimal (no data retention)
+- **Third-Party Risk**: Limited to RapidAPI platform
+- **Technical Risk**: Memory-only processing
+
+---
+
+## Appendix A: Glossary
+
+- **Zero-Storage**: No persistent storage of user-submitted data
+- **Stateless**: Each request processed independently without memory of previous requests
+- **Privacy by Design**: Privacy protection built into technical architecture
+- **Memory-Only Processing**: Data exists only in RAM during active processing
+- **Public Data**: DNS records and known domain lists available publicly
+
+## Appendix B: Privacy Commitment
+
+> "We believe privacy is a fundamental right. Our architecture doesn't just protect privacy through policy—it makes privacy violations technically impossible. You cannot leak, sell, or misuse data that doesn't exist."
+
+**Last Architecture Review:** June 2025  
+**Next Scheduled Review:** September 2025
+
+---
+
+**© 2025 Valid Mint**

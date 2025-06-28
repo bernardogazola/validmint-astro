@@ -1,0 +1,83 @@
+---
+import { Card } from '@/components/ui/card';
+import { Clock, Target, Lock, Book, BookOpen, Cloud } from '@lucide/astro';
+
+const features = [
+  {
+    icon: Clock,
+    title: 'Consistent Performance',
+    description: 'Reliable responses you can depend on',
+    detail: 'Sub-20ms response times with 99.9% uptime guarantee'
+  },
+  {
+    icon: Target,
+    title: 'Intelligent Parsing',
+    description: 'Smart email and domain extraction',
+    detail: 'Automatically extracts domains from full email addresses'
+  },
+  {
+    icon: Lock,
+    title: 'Security First',
+    description: '60,000+ disposable providers detected',
+    detail: 'Comprehensive fraud prevention and risk analysis'
+  },
+  {
+    icon: Book,
+    title: 'Comprehensive Analysis',
+    description: 'Complete DNS and security validation',
+    detail: 'SPF, DKIM, DMARC validation with detailed reporting'
+  },
+  {
+    icon: BookOpen,
+    title: 'Clear Documentation',
+    description: 'Thoughtful guides',
+    detail: 'Extensive examples and integration tutorials'
+  },
+  {
+    icon: Cloud,
+    title: 'Reliable Infrastructure',
+    description: 'Steadfast uptime with careful monitoring',
+    detail: 'Auto-scaling architecture built for enterprise scale'
+  }
+];
+---
+
+<section id="features" class="py-24 bg-sand-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-5xl font-serif font-semibold text-ocean-500 mb-6">
+        Thoughtfully Designed for Developers
+      </h2>
+      <p class="text-xl text-storm-500 max-w-3xl mx-auto">
+        Every feature crafted with purpose, every detail considered with care
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map((feature, index) => {
+        const Icon = feature.icon;
+        return (
+          <Card 
+            key={index} 
+            className="p-8 border-sand-200 bg-white hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group"
+          >
+            <div class="mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-sage-500 to-ocean-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Icon class="w-6 h-6 text-white" />
+              </div>
+              <h3 class="text-xl font-serif font-semibold text-ocean-500 mb-2">
+                {feature.title}
+              </h3>
+              <p class="text-storm-500 mb-3">
+                {feature.description}
+              </p>
+              <p class="text-sm text-storm-500/70">
+                {feature.detail}
+              </p>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  </div>
+</section>

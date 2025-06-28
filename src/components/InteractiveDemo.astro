@@ -1,0 +1,281 @@
+---
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Clock, Target } from '@lucide/astro';
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-serif font-semibold text-ocean-500 mb-6">
+        Try It Yourself
+      </h2>
+      <p class="text-xl text-storm-500 max-w-2xl mx-auto">
+        Enter an email address or domain to see our validation in action
+      </p>
+    </div>
+
+    <Card className="p-8 max-w-2xl mx-auto border-sand-200 shadow-lg">
+      <!-- Mode Toggle -->
+      <div class="flex items-center justify-center mb-8">
+        <div class="flex bg-sand-100 rounded-full p-1">
+          <button
+            id="fast-mode-btn"
+            class="mode-btn flex items-center space-x-2 px-4 py-2 rounded-full transition-all bg-white text-ocean-500 shadow-sm cursor-pointer"
+          >
+            <Clock class="w-4 h-4" />
+            <span>Fast</span>
+          </button>
+          <button
+            id="full-mode-btn"
+            class="mode-btn flex items-center space-x-2 px-4 py-2 rounded-full transition-all text-storm-500 cursor-pointer"
+          >
+            <Target class="w-4 h-4" />
+            <span>Full</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="flex gap-4 mb-8">
+        <Input
+          id="validation-input"
+          type="text"
+          placeholder="user@example.com or example.com"
+          className="flex-1 h-12 text-lg border-sand-200 focus:border-sage-500"
+        />
+        <Button
+          id="validate-btn"
+          className="bg-sage-500 hover:bg-sage-600 text-white px-8 h-12 cursor-pointer"
+        >
+          Validate
+        </Button>
+      </div>
+
+      <!-- Results -->
+      <div id="validation-result" class="hidden bg-sand-50 rounded-lg p-6 animate-fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <span class="font-mono text-sm text-storm-500" id="result-domain"></span>
+          <span id="result-status" class="px-3 py-1 rounded-full text-sm font-medium"></span>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span class="text-storm-500">Response Time:</span>
+            <span class="ml-2 font-mono text-ocean-500" id="result-time"></span>
+          </div>
+          <div>
+            <span class="text-storm-500">Disposable:</span>
+            <span class="ml-2 font-mono text-ocean-500" id="result-disposable"></span>
+          </div>
+        </div>
+
+        <div id="full-details" class="hidden mt-4 pt-4 border-t border-sand-200">
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-storm-500">MX Records:</span>
+              <span class="ml-2 text-sage-600" id="result-mx-records"></span>
+            </div>
+            <div>
+              <span class="text-storm-500">SPF Record:</span>
+              <span class="ml-2 text-sage-600" id="result-spf-record"></span>
+            </div>
+            <div>
+              <span class="text-storm-500">DKIM Record:</span>
+              <span class="ml-2 text-sage-600" id="result-dkim-record"></span>
+            </div>
+            <div>
+              <span class="text-storm-500">Risk Score:</span>
+              <span class="ml-2 font-mono text-ocean-500" id="result-risk">2/10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  </div>
+</section>
+
+<script>
+  import { actions } from 'astro:actions';
+  import { atom } from 'nanostores';
+  
+  const isFastMode = atom(true);
+  const isLoading = atom(false);
+  
+  const fastModeBtn = document.getElementById('fast-mode-btn');
+  const fullModeBtn = document.getElementById('full-mode-btn');
+
+  fastModeBtn?.addEventListener('click', () => {
+    if (isFastMode.get()) return;
+    isFastMode.set(true);
+    console.log("fast mode");
+    fastModeBtn?.classList.add('bg-white', 'text-ocean-500', 'shadow-sm');
+    fastModeBtn?.classList.remove('text-storm-500');
+    fullModeBtn?.classList.remove('bg-white', 'text-ocean-500', 'shadow-sm');
+    fullModeBtn?.classList.add('text-storm-500');
+  });
+
+  fullModeBtn?.addEventListener('click', () => {
+    if (!isFastMode.get()) return;
+    isFastMode.set(false);
+    console.log("full mode");
+    fastModeBtn?.classList.remove('bg-white', 'text-ocean-500', 'shadow-sm');
+    fastModeBtn?.classList.add('text-storm-500');
+    fullModeBtn?.classList.add('bg-white', 'text-ocean-500', 'shadow-sm');
+    fullModeBtn?.classList.remove('text-storm-500');
+  });
+  
+  // Validation functionality
+  const input = document.getElementById('validation-input') as HTMLInputElement;
+  const validateBtn = document.getElementById('validate-btn') as HTMLButtonElement;
+  const resultContainer = document.getElementById('validation-result');
+  
+  async function handleValidation() {
+    const value = input.value.trim();
+    if (!value) {
+      input.ariaInvalid = 'true';
+      return;
+    }
+    input.ariaInvalid = 'false';
+    if (isLoading.get()) return;
+
+    // Show loading state
+    isLoading.set(true);
+    if (validateBtn) {
+      validateBtn.textContent = 'Validating...';
+      validateBtn.disabled = true;
+      validateBtn.classList.add('opacity-70');
+    }
+
+    // Hide previous results
+    if (resultContainer) {
+      resultContainer.classList.add('hidden');
+    }
+
+
+    try {
+      let data: any;
+      let error: any;
+
+      if (isFastMode.get()) {
+        ({ data, error } = await actions.fastValidate({ email: value }));
+      } else {
+        ({ data, error } = await actions.validate({ email: value }));
+      }
+
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error('No data received from validation');
+      }
+
+      // Update UI with results
+      if (resultContainer) {
+        resultContainer.classList.remove('hidden');
+        
+        const domainEl = document.getElementById('result-domain');
+        const statusEl = document.getElementById('result-status');
+        const timeEl = document.getElementById('result-time');
+        const disposableEl = document.getElementById('result-disposable');
+        const fullDetailsEl = document.getElementById('full-details');
+        const mxRecordsEl = document.getElementById('result-mx-records');
+        const spfRecordEl = document.getElementById('result-spf-record');
+        const dkimRecordEl = document.getElementById('result-dkim-record');
+        const riskEl = document.getElementById('result-risk');
+        
+        if (domainEl) domainEl.textContent = data.domain;
+        
+        if (statusEl) {
+          statusEl.textContent = data.is_valid ? 'Valid' : 'Invalid';
+          statusEl.className = `px-3 py-1 rounded-full text-sm font-medium ${
+            data.is_valid ? 'bg-sage-500/10 text-sage-600' : 'bg-red-500/10 text-red-600'
+          }`;
+        }
+        
+        // Use actual response time or performance data if available
+        if (timeEl) {
+          timeEl.textContent = `${data.performance.total_time_ms}ms`;
+        }
+        
+        if (disposableEl) {
+          disposableEl.textContent = data.is_disposable ? 'Yes' : 'No';
+        }
+        
+        // Show/hide full details based on mode and data availability
+        if (fullDetailsEl) {
+          if (!isFastMode.get() && data.has_mx_records !== undefined) {
+            fullDetailsEl.classList.remove('hidden');
+            
+            // Update full validation details
+            if (mxRecordsEl) {
+              mxRecordsEl.textContent = data.has_mx_records ? '✓' : '✗';
+              mxRecordsEl.className = data.has_mx_records ? 'text-sage-600' : 'text-red-600';
+            }
+            
+            if (spfRecordEl) {
+              const spfExists = data.spf_record?.exists;
+              spfRecordEl.textContent = spfExists ? '✓' : '✗';
+              spfRecordEl.className = spfExists ? 'text-sage-600' : 'text-red-600';
+            }
+            
+            if (dkimRecordEl) {
+              const hasDkim = data.dkim_records && data.dkim_records.length > 0 && 
+                             data.dkim_records.some((record: any) => record.exists);
+              dkimRecordEl.textContent = hasDkim ? '✓' : '✗';
+              dkimRecordEl.className = hasDkim ? 'text-sage-600' : 'text-red-600';
+            }
+            
+            if (riskEl) {
+              const riskScore = data.risk_score !== undefined ? data.risk_score : 'N/A';
+              riskEl.textContent = `${riskScore}/10 - ${data.risk_level.charAt(0).toUpperCase() + data.risk_level.slice(1)}`;
+              // Color code based on risk level
+              if (data.risk_level === 'low') {
+                riskEl.className = 'ml-2 font-mono text-sage-600';
+              } else if (data.risk_level === 'medium') {
+                riskEl.className = 'ml-2 font-mono text-yellow-600';
+              } else if (data.risk_level === 'high') {
+                riskEl.className = 'ml-2 font-mono text-red-600';
+              } else if (data.risk_level === 'critical') {
+                riskEl.className = 'ml-2 font-mono text-red-900';
+              } else {
+                riskEl.className = 'ml-2 font-mono text-ocean-500';
+              }
+            }
+          } else {
+            fullDetailsEl.classList.add('hidden');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Validation error:', error);
+      
+      // Show error state
+      if (resultContainer) {
+        resultContainer.classList.remove('hidden');
+        resultContainer.innerHTML = `
+          <div class="bg-red-50 text-red-600 p-4 rounded-lg">
+            <p class="font-medium">Validation failed</p>
+            <p class="text-sm mt-1">${error instanceof Error ? error.message : 'An unexpected error occurred'}</p>
+          </div>
+        `;
+      }
+    } finally {
+      // Reset button state
+      isLoading.set(false);
+      if (validateBtn) {
+        validateBtn.textContent = 'Validate';
+        validateBtn.disabled = false;
+        validateBtn.classList.remove('opacity-70');
+      }
+    }
+  }
+  
+  validateBtn?.addEventListener('click', handleValidation);
+  input?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleValidation();
+  });
+</script>

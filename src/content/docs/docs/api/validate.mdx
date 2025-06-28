@@ -1,0 +1,414 @@
+---
+title: Full Validation
+description: Comprehensive email domain validation with complete security analysis
+sidebar:
+  label: /v1/validate
+  badge:
+    text: GET
+    variant: success
+---
+
+import { Tabs, TabItem, Code, Badge, Aside, Steps, Card, CardGrid } from '@astrojs/starlight/components';
+
+The full validation endpoint performs comprehensive domain validation including disposable detection, DNS validation, email authentication analysis, typo detection, and risk scoring.
+
+## Endpoint Details
+
+<div class="flex items-center gap-2">
+  <Badge text="GET" variant="success" size="medium" />
+  ```https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate```
+</div>
+
+<Aside type="tip" title="Best for Comprehensive Validation">
+  Use this endpoint when you need complete email validation including security checks, typo detection, and risk assessment. Response time: ~50-200ms.
+</Aside>
+
+## Request Parameters
+
+### Query Parameters (GET)
+
+| Parameter | Type | Required | Description |
+|-----------|------|:----------:|-------------|
+| `domain` | string | ✓ | Domain to validate (e.g., "example.com" or "user@example.com") |
+
+## Response Format
+
+### Success Response
+
+```json
+{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "domain": "gmail.com",
+  "is_valid": true,
+  "is_disposable": false,
+  "has_mx_records": true,
+  "has_a_records": true,
+  "is_potential_typo": false,
+  "suggestion": null,
+  "spf_record": {
+    "exists": true,
+    "policy": "v=spf1 include:_spf.google.com ~all",
+    "is_strict": false
+  },
+  "dmarc_record": {
+    "exists": true,
+    "policy": "v=DMARC1; p=quarantine; rua=mailto:dmarc@gmail.com",
+    "percentage": 100
+  },
+  "dkim_records": [
+    {
+      "selector": "google",
+      "exists": true,
+      "has_public_key": true
+    }
+  ],
+  "risk_score": 15,
+  "risk_level": "low",
+  "checked_at": "2024-01-20T10:30:00Z"
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `request_id` | string | Unique request identifier |
+| `domain` | string | Validated domain |
+| `is_valid` | boolean | Overall validation result |
+| `is_disposable` | boolean | Whether domain is disposable |
+| `has_mx_records` | boolean | MX records exist for email delivery |
+| `has_a_records` | boolean | A/AAAA records exist (domain resolves) |
+| `is_potential_typo` | boolean | Potential typo detected |
+| `suggestion` | string\|null | Typo correction suggestion |
+| `spf_record` | object | SPF record analysis |
+| `dmarc_record` | object | DMARC record analysis |
+| `dkim_records` | array | DKIM record analysis |
+| `risk_score` | integer | Risk score (0-100) |
+| `risk_level` | string | Risk level category |
+| `checked_at` | string | ISO 8601 timestamp |
+
+## Code Examples
+
+<Tabs>
+  <TabItem label="Node.js (HTTPS)" icon="seti:javascript">
+    ```javascript
+    const https = require('https');
+
+    const options = {
+        method: 'GET',
+        hostname: 'valid-mint-e-mail-domain-validator.p.rapidapi.com',
+        port: null,
+        path: '/v1/validate?domain=gmail.com',
+        headers: {
+            'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+            'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+        }
+    };
+
+    const req = https.request(options, function (res) {
+        const chunks = [];
+
+        res.on('data', function (chunk) {
+            chunks.push(chunk);
+        });
+
+        res.on('end', function () {
+            const body = Buffer.concat(chunks);
+            console.log(body.toString());
+        });
+    });
+
+    req.end();
+    ```
+  </TabItem>
+  <TabItem label="JavaScript (Fetch)" icon="seti:javascript">
+    ```javascript
+    const url = 'https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate?domain=gmail.com';
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+            'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    ```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+    ```python
+    import requests
+
+    url = "https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate"
+
+    querystring = {"domain": "gmail.com"}
+
+    headers = {
+        "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
+        "x-rapidapi-host": "valid-mint-e-mail-domain-validator.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+    
+    if response.status_code == 200:
+        print(response.json())
+    else:
+        print(f"Error: {response.status_code}")
+    ```
+  </TabItem>
+  <TabItem label="PHP" icon="seti:php">
+    ```php
+    <?php
+    $curl = curl_init();
+
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate?domain=gmail.com",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => [
+            "x-rapidapi-host: valid-mint-e-mail-domain-validator.p.rapidapi.com",
+            "x-rapidapi-key: YOUR_RAPIDAPI_KEY"
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+        echo $response;
+    }
+    ?>
+    ```
+  </TabItem>
+  <TabItem label="Java" icon="seti:java">
+    ```java
+    import java.io.IOException;
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class EmailValidator {
+        public static void main(String[] args) throws IOException, InterruptedException {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate?domain=gmail.com"))
+                .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+                .header("x-rapidapi-host", "valid-mint-e-mail-domain-validator.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+            
+            HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+            
+            System.out.println(response.body());
+        }
+    }
+    ```
+  </TabItem>
+  <TabItem label="C#" icon="seti:c-sharp">
+    ```csharp
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate?domain=gmail.com"),
+                Headers =
+                {
+                    { "x-rapidapi-key", "YOUR_RAPIDAPI_KEY" },
+                    { "x-rapidapi-host", "valid-mint-e-mail-domain-validator.p.rapidapi.com" },
+                },
+            };
+            
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(body);
+            }
+        }
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Risk Scoring
+
+The risk score (0-100) helps you assess email domain quality:
+
+| Factor | Points | Description |
+|--------|:--------:|-------------|
+| Disposable domain | <Badge text="+40" variant="danger" /> | Domain is known disposable |
+| No MX records | <Badge text="+30" variant="danger" /> | Cannot receive email |
+| No A records | <Badge text="+20" variant="caution" /> | Domain doesn't resolve |
+| Failed DMARC | <Badge text="+20" variant="caution" /> | No DMARC policy |
+| Potential typo | <Badge text="+15" variant="note" /> | Likely mistyped domain |
+| No SPF | <Badge text="+10" variant="note" /> | No SPF record |
+| Permissive SPF | <Badge text="+5" variant="note" /> | SPF with ~all |
+
+### Risk Levels
+
+| Score Range | Level | Recommendation |
+|-------------|:-------:|----------------|
+| 0-25 | <Badge text="Low" variant="success" /> | Safe to accept |
+| 26-50 | <Badge text="Medium" variant="note" /> | Review manually |
+| 51-75 | <Badge text="High" variant="caution" /> | Likely problematic |
+| 76-100 | <Badge text="Critical" variant="danger" /> | Block or reject |
+
+## Email Input Handling
+
+The API automatically extracts domains from email addresses:
+
+<CardGrid>
+  <Card title="Email Address Input" icon="email">
+    **Input**: `user@gmail.com`
+    
+    **Validates**: `gmail.com`
+    
+    Perfect for form validation
+  </Card>
+  
+  <Card title="Domain Input" icon="seti:json">
+    **Input**: `gmail.com`
+    
+    **Validates**: `gmail.com`
+    
+    Direct domain validation
+  </Card>
+</CardGrid>
+
+## Example Response Analysis
+
+### Valid Domain (gmail.com)
+
+```json
+{
+  "domain": "gmail.com",
+  "is_valid": true,
+  "is_disposable": false,
+  "has_mx_records": true,
+  "has_a_records": true,
+  [...]
+  "risk_score": 5,
+  "risk_level": "low"
+}
+```
+
+### Disposable Domain (10minutemail.com)
+
+```json
+{
+  "domain": "10minutemail.com",
+  "is_valid": true,
+  "is_disposable": true,
+  "has_mx_records": true,
+  "has_a_records": true,
+  [...]
+  "risk_score": 40,
+  "risk_level": "medium"
+}
+```
+
+### Typo Detection (gmial.com)
+
+```json
+{
+  "domain": "gmial.com",
+  "is_valid": false,
+  "is_disposable": false,
+  "has_mx_records": false,
+  "has_a_records": false,
+  "is_potential_typo": true,
+  "suggestion": "gmail.com",
+  "risk_score": 75,
+  "risk_level": "high"
+}
+```
+
+## Error Responses
+
+### Invalid Domain
+
+```json
+{
+  "error": "Invalid domain format",
+  "error_code": "INVALID_DOMAIN",
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "timestamp": "2024-01-20T10:30:00Z"
+}
+```
+
+### Rate Limit Exceeded
+
+```json
+{
+  "error": "Rate limit exceeded. Please retry after 3600 seconds.",
+  "error_code": "RATE_LIMIT_EXCEEDED",
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "timestamp": "2024-01-20T10:30:00Z"
+}
+```
+
+## Use Cases
+
+<Steps>
+
+1. **Email List Cleaning**
+   
+   Validate email lists before campaigns to improve deliverability rates
+
+2. **User Registration**
+   
+   Prevent sign-ups with disposable or invalid domains
+
+3. **Security Assessment**
+   
+   Check domain authentication setup (SPF/DKIM/DMARC)
+
+4. **Data Quality Assurance**
+   
+   Maintain high-quality email data in your systems
+
+</Steps>
+
+## Performance Tips
+
+<CardGrid stagger>
+  <Card title="Cache Results" icon="seti:db">
+    Cache validation results for frequently checked domains to reduce API calls
+  </Card>
+  
+  <Card title="Error Handling" icon="warning">
+    Implement retry logic with exponential backoff for temporary failures
+  </Card>
+  
+  <Card title="Choose the Right Endpoint" icon="setting">
+    Use fast-validate for real-time checks, full validate for comprehensive analysis
+  </Card>
+</CardGrid>
+
+<Aside type="tip">
+  Remember to replace `YOUR_RAPIDAPI_KEY` with your actual API key from the RapidAPI dashboard.
+</Aside>

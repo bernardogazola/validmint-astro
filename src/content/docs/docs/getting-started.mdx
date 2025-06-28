@@ -1,0 +1,507 @@
+---
+title: Getting Started
+description: Get up and running with the Valid Mint - Email Validation API in minutes
+sidebar:
+  order: 1
+  badge:
+    text: Start Here
+    variant: tip
+---
+
+import { Steps, Tabs, TabItem, Card, CardGrid, Badge, Aside, LinkCard } from '@astrojs/starlight/components';
+
+Get started with the Valid Mint - Email Domain Validation API in just a few minutes. This guide will walk you through subscribing on RapidAPI and making your first API calls.
+
+## Quick Start
+
+<Steps>
+
+1. **Subscribe on RapidAPI**
+   
+   Visit the [Email Domain Validator on RapidAPI](https://rapidapi.com) and choose your plan:
+   - **Basic**: Free (1,000 requests/month)
+   - **Pro**: $25/month (100,000 requests/month) 
+   - **Ultra**: $75/month (1,000,000 requests/month)
+
+2. **Get Your API Key**
+   
+   After subscribing, copy your API key from the RapidAPI dashboard
+
+3. **Make Your First Request**
+   
+   Test the API with a simple validation request
+
+4. **Integrate into Your Application**
+   
+   Use our code examples to integrate validation into your app
+
+</Steps>
+
+## Your First API Call
+
+Once you have your RapidAPI key, try this simple test:
+
+<Tabs>
+  <TabItem label="cURL" icon="terminal">
+    ```bash
+    curl -X GET \
+      'https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate?domain=gmail.com' \
+      -H 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+      -H 'x-rapidapi-host: valid-mint-e-mail-domain-validator.p.rapidapi.com'
+    ```
+  </TabItem>
+  <TabItem label="JavaScript" icon="js">
+    ```javascript
+    const response = await fetch('https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate?domain=gmail.com', {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+        'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+      }
+    });
+    
+    const data = await response.json();
+    console.log(data);
+    ```
+  </TabItem>
+  <TabItem label="Python" icon="python">
+    ```python
+    import requests
+    
+    url = "https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate"
+    
+    querystring = {"domain": "gmail.com"}
+    
+    headers = {
+        "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
+        "x-rapidapi-host": "valid-mint-e-mail-domain-validator.p.rapidapi.com"
+    }
+    
+    response = requests.get(url, headers=headers, params=querystring)
+    print(response.json())
+    ```
+  </TabItem>
+</Tabs>
+
+### Expected Response
+
+```json
+{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "domain": "gmail.com",
+  "is_valid": true,
+  "is_disposable": false
+}
+```
+
+<Aside type="tip">
+  Replace `YOUR_RAPIDAPI_KEY` with your actual API key from the RapidAPI dashboard.
+</Aside>
+
+## Available Endpoints
+
+The API provides two main endpoints for different use cases:
+
+<CardGrid>
+  <Card title="Fast Validation" icon="rocket">
+    **Endpoint**: `/v1/fast-validate`
+    
+    **Best for**: Real-time form validation
+    
+    **Response time**: ~10-20ms
+    
+    **Checks**: Domain format, disposable detection
+    
+    [Learn more →](/api/fast-validate/)
+  </Card>
+  
+  <Card title="Full Validation" icon="shield">
+    **Endpoint**: `/v1/validate`
+    
+    **Best for**: Comprehensive email verification
+    
+    **Response time**: ~50-200ms
+    
+    **Checks**: DNS, SPF, DKIM, DMARC, typos, risk scoring
+    
+    [Learn more →](/api/validate/)
+  </Card>
+</CardGrid>
+
+## Integration Examples
+
+### Real-time Form Validation
+
+Perfect for validating email inputs as users type:
+
+<Tabs>
+  <TabItem label="Vanilla JS" icon="js">
+    ```javascript
+    class EmailValidator {
+      constructor(apiKey) {
+        this.apiKey = apiKey;
+        this.baseUrl = 'https://valid-mint-e-mail-domain-validator.p.rapidapi.com';
+      }
+
+      async validateEmail(email) {
+        const response = await fetch(`${this.baseUrl}/v1/fast-validate?domain=${encodeURIComponent(email)}`, {
+          headers: {
+            'x-rapidapi-key': this.apiKey,
+            'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+          }
+        });
+        
+        return response.json();
+      }
+    }
+
+    // Usage
+    const validator = new EmailValidator('YOUR_RAPIDAPI_KEY');
+
+    document.getElementById('email-input').addEventListener('input', async (e) => {
+      const email = e.target.value;
+      if (email.includes('@')) {
+        try {
+          const result = await validator.validateEmail(email);
+          if (!result.is_valid) {
+            showError('Invalid email format');
+          } else if (result.is_disposable) {
+            showError('Disposable emails not allowed');
+          } else {
+            clearError();
+          }
+        } catch (error) {
+          console.error('Validation error:', error);
+        }
+      }
+    });
+    ```
+  </TabItem>
+  <TabItem label="React" icon="react">
+    ```jsx
+    import { useState, useCallback } from 'react';
+    import { debounce } from 'lodash';
+
+    function EmailInput() {
+      const [email, setEmail] = useState('');
+      const [error, setError] = useState('');
+      const [isValidating, setIsValidating] = useState(false);
+
+      const validateEmail = useCallback(
+        debounce(async (value) => {
+          if (!value || !value.includes('@')) return;
+          
+          setIsValidating(true);
+          try {
+            const response = await fetch(
+              `https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate?domain=${encodeURIComponent(value)}`,
+              {
+                headers: {
+                  'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
+                  'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+                }
+              }
+            );
+            
+            const data = await response.json();
+            
+            if (!data.is_valid) {
+              setError('Invalid email format');
+            } else if (data.is_disposable) {
+              setError('Disposable emails not allowed');
+            } else {
+              setError('');
+            }
+          } catch (err) {
+            console.error('Validation error:', err);
+          } finally {
+            setIsValidating(false);
+          }
+        }, 300),
+        []
+      );
+
+      return (
+        <div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              validateEmail(e.target.value);
+            }}
+            placeholder="Enter email address"
+          />
+          {isValidating && <span>Validating...</span>}
+          {error && <span style={{ color: 'red' }}>{error}</span>}
+        </div>
+      );
+    }
+    ```
+  </TabItem>
+  <TabItem label="PHP" icon="php">
+    ```php
+    <?php
+    class EmailValidator {
+        private $apiKey;
+        private $baseUrl = 'https://valid-mint-e-mail-domain-validator.p.rapidapi.com';
+        
+        public function __construct($apiKey) {
+            $this->apiKey = $apiKey;
+        }
+        
+        public function validateEmail($email) {
+            $url = $this->baseUrl . '/v1/fast-validate?domain=' . urlencode($email);
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'x-rapidapi-key: ' . $this->apiKey,
+                'x-rapidapi-host: valid-mint-e-mail-domain-validator.p.rapidapi.com'
+            ]);
+            
+            $response = curl_exec($ch);
+            curl_close($ch);
+            
+            return json_decode($response, true);
+        }
+    }
+
+    // Usage
+    $validator = new EmailValidator('YOUR_RAPIDAPI_KEY');
+    $result = $validator->validateEmail('user@example.com');
+
+    if (!$result['is_valid']) {
+        echo "Invalid email format";
+    } elseif ($result['is_disposable']) {
+        echo "Disposable emails not allowed";
+    } else {
+        echo "Email is valid";
+    }
+    ?>
+    ```
+  </TabItem>
+</Tabs>
+
+### Bulk Email Validation
+
+For validating large lists of emails:
+
+<Tabs>
+  <TabItem label="Node.js" icon="js">
+    ```javascript
+    const https = require('https');
+
+    class BulkEmailValidator {
+      constructor(apiKey) {
+        this.apiKey = apiKey;
+        this.results = [];
+      }
+
+      async validateEmail(domain) {
+        return new Promise((resolve, reject) => {
+          const options = {
+            method: 'GET',
+            hostname: 'valid-mint-e-mail-domain-validator.p.rapidapi.com',
+            path: `/v1/validate?domain=${encodeURIComponent(domain)}`,
+            headers: {
+              'x-rapidapi-key': this.apiKey,
+              'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+            }
+          };
+
+          const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => resolve(JSON.parse(data)));
+          });
+
+          req.on('error', reject);
+          req.end();
+        });
+      }
+
+      async validateBatch(emails, batchSize = 10) {
+        const results = [];
+        
+        for (let i = 0; i < emails.length; i += batchSize) {
+          const batch = emails.slice(i, i + batchSize);
+          const batchPromises = batch.map(email => 
+            this.validateEmail(email).catch(err => ({ email, error: err.message }))
+          );
+          
+          const batchResults = await Promise.all(batchPromises);
+          results.push(...batchResults);
+          
+          // Rate limiting: wait 1 second between batches
+          if (i + batchSize < emails.length) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        }
+        
+        return results;
+      }
+    }
+
+    // Usage
+    const validator = new BulkEmailValidator('YOUR_RAPIDAPI_KEY');
+    const emails = ['user1@example.com', 'user2@gmail.com', 'user3@tempmail.com'];
+
+    validator.validateBatch(emails).then(results => {
+      results.forEach(result => {
+        if (result.error) {
+          console.log(`Error validating ${result.email}: ${result.error}`);
+        } else {
+          console.log(`${result.domain}: valid=${result.is_valid}, disposable=${result.is_disposable}`);
+        }
+      });
+    });
+    ```
+  </TabItem>
+  <TabItem label="Python" icon="python">
+    ```python
+    import asyncio
+    import aiohttp
+    import time
+
+    class BulkEmailValidator:
+        def __init__(self, api_key):
+            self.api_key = api_key
+            self.base_url = "https://valid-mint-e-mail-domain-validator.p.rapidapi.com"
+            
+        async def validate_email(self, session, email):
+            headers = {
+                'x-rapidapi-key': self.api_key,
+                'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+            }
+            
+            try:
+                async with session.get(
+                    f"{self.base_url}/v1/validate",
+                    params={'domain': email},
+                    headers=headers
+                ) as response:
+                    return await response.json()
+            except Exception as e:
+                return {'email': email, 'error': str(e)}
+        
+        async def validate_batch(self, emails, batch_size=10):
+            results = []
+            
+            async with aiohttp.ClientSession() as session:
+                for i in range(0, len(emails), batch_size):
+                    batch = emails[i:i + batch_size]
+                    tasks = [self.validate_email(session, email) for email in batch]
+                    batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+                    results.extend(batch_results)
+                    
+                    # Rate limiting: wait 1 second between batches
+                    if i + batch_size < len(emails):
+                        await asyncio.sleep(1)
+            
+            return results
+
+    # Usage
+    async def main():
+        validator = BulkEmailValidator('YOUR_RAPIDAPI_KEY')
+        emails = ['user1@example.com', 'user2@gmail.com', 'user3@tempmail.com']
+        
+        results = await validator.validate_batch(emails)
+        
+        for result in results:
+            if 'error' in result:
+                print(f"Error validating {result['email']}: {result['error']}")
+            else:
+                print(f"{result['domain']}: valid={result['is_valid']}, disposable={result['is_disposable']}")
+
+    # Run the example
+    asyncio.run(main())
+    ```
+  </TabItem>
+</Tabs>
+
+## Best Practices
+
+<CardGrid stagger>
+  <Card title="Cache Results" icon="cache">
+    Cache validation results for frequently checked domains to reduce API calls and improve performance.
+  </Card>
+  
+  <Card title="Handle Errors Gracefully" icon="warning">
+    Always implement error handling for network issues and API errors. Provide fallback behavior when validation fails.
+  </Card>
+  
+  <Card title="Use Appropriate Endpoints" icon="setting">
+    Use fast-validate for real-time checks and full validate for comprehensive verification before processing.
+  </Card>
+  
+  <Card title="Respect Rate Limits" icon="clock">
+    Implement throttling and batch processing to stay within the 1,000 requests/hour rate limit.
+  </Card>
+</CardGrid>
+
+## Error Handling
+
+Always implement proper error handling:
+
+```javascript
+async function validateEmailSafely(email) {
+  try {
+    const response = await fetch(
+      `https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate?domain=${email}`,
+      {
+        headers: {
+          'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+          'x-rapidapi-host': 'valid-mint-e-mail-domain-validator.p.rapidapi.com'
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return { success: true, data };
+  } catch (error) {
+    console.error('Validation error:', error);
+    return { 
+      success: false, 
+      error: error.message,
+      // Provide fallback validation
+      fallback: email.includes('@') && email.includes('.')
+    };
+  }
+}
+```
+
+## Next Steps
+
+<CardGrid>
+  <LinkCard
+    title="Full Validation Endpoint"
+    href="/api/validate/"
+    description="Learn about comprehensive email validation with all security checks"
+  />
+  <LinkCard
+    title="Fast Validation Endpoint"
+    href="/api/fast-validate/"
+    description="Optimize for real-time validation scenarios"
+  />
+  <LinkCard
+    title="View Pricing Plans"
+    href="/pricing/"
+    description="Choose the right plan for your usage needs"
+  />
+</CardGrid>
+
+## Need Help?
+
+- **Documentation Issues**: Check our comprehensive API documentation
+- **RapidAPI Support**: Contact RapidAPI support for billing and subscription issues
+- **API Questions**: Use the RapidAPI community forum for technical questions
+
+<Aside type="tip">
+  Remember to keep your RapidAPI key secure and never expose it in client-side code. Always make API calls from your server or use environment variables.
+</Aside>

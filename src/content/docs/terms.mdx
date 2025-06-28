@@ -1,0 +1,411 @@
+---
+title: Terms of Service
+---
+
+**Document Version:** 1.0  
+**Last Updated:** June 2025  
+**Effective Date:** June 2025  
+**Service Provider:** Valid Mint  
+**Service Name:** Valid Mint - Email Domain Validation API
+
+## IMPORTANT NOTICE
+
+**PLEASE READ THESE TERMS OF SERVICE ("TERMS") CAREFULLY BEFORE USING THE VALID MINT EMAIL DOMAIN VALIDATION API ("SERVICE"). BY ACCESSING OR USING THE SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SERVICE.**
+
+## Table of Contents
+
+1. [Acceptance of Terms](#1-acceptance-of-terms)
+2. [Service Description](#2-service-description)
+3. [Definitions](#3-definitions)
+4. [Grant of License](#4-grant-of-license)
+5. [API Usage and Restrictions](#5-api-usage-and-restrictions)
+6. [Fair Use Policy](#6-fair-use-policy)
+7. [Privacy and Data Processing](#7-privacy-and-data-processing)
+8. [Intellectual Property Rights](#8-intellectual-property-rights)
+9. [Service Availability and Performance](#9-service-availability-and-performance)
+10. [Fees and Payment](#10-fees-and-payment)
+11. [Warranties and Disclaimers](#11-warranties-and-disclaimers)
+12. [Limitation of Liability](#12-limitation-of-liability)
+13. [RapidAPI Platform Integration](#13-rapidapi-platform-integration)
+14. [Termination](#14-termination)
+15. [Modification of Terms](#15-modification-of-terms)
+16. [General Provisions](#16-general-provisions)
+
+## 1. Acceptance of Terms
+
+### 1.1 Agreement to Terms
+
+By accessing or using the Valid Mint Email Domain Validation API, you acknowledge that you have read, understood, and agree to be bound by these Terms and our [Data Protection & Privacy Policy](/privacy), which is incorporated herein by reference.
+
+### 1.2 Capacity to Accept
+
+You represent and warrant that:
+
+- You are at least 18 years of age
+- You have the legal capacity to enter into binding agreements
+- If accepting on behalf of an organization, you have authority to bind that organization
+
+### 1.3 Additional Terms
+
+Your use of the Service through the RapidAPI platform is also subject to RapidAPI's terms of service and policies, which apply in addition to these Terms.
+
+## 2. Service Description
+
+### 2.1 Core Functionality
+
+The Valid Mint Email Domain Validation API provides real-time validation services for email domains, including:
+
+- **Domain Existence Verification**: DNS record validation
+- **Email Capability Check**: MX record verification
+- **Disposable Domain Detection**: Identification of temporary email services
+- **Deliverability Analysis**: SPF, DKIM, and DMARC policy assessment
+- **Typo Detection**: Common domain misspelling identification
+
+### 2.2 Technical Architecture
+
+The Service operates on a zero-storage architecture:
+
+- All processing occurs in real-time memory
+- No user-submitted data is stored or logged
+- Each request is processed independently
+- No behavioral tracking or profiling
+
+### 2.3 Service Delivery
+
+The Service is delivered exclusively through the RapidAPI marketplace as a RESTful API accessible via HTTPS.
+
+## 3. Definitions
+
+For the purposes of these Terms:
+
+- **"API"** means the Valid Mint Email Domain Validation application programming interface
+- **"API Key"** means the unique identifier provided by RapidAPI for authentication
+- **"Documentation"** means the technical specifications and usage guides for the Service
+- **"Subscription Plan"** means the tier of service you have selected through RapidAPI
+- **"Rate Limits"** means the maximum number of API calls permitted within a time period
+- **"User"**, **"You"**, **"Your"** means the individual or entity using the Service
+- **"We"**, **"Us"**, **"Our"** means Valid Mint, the provider of the Service
+
+## 4. Grant of License
+
+### 4.1 Limited License
+
+Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service solely for your internal business purposes.
+
+### 4.2 License Restrictions
+
+You may not:
+
+- Sublicense, resell, or redistribute access to the Service
+- Use the Service to create a competing product
+- Reverse engineer or attempt to derive the source code
+- Remove or alter any proprietary notices
+
+### 4.3 API Key Security
+
+You are responsible for:
+
+- Maintaining the confidentiality of your API keys
+- All activities that occur using your API keys
+- Immediately notifying us of any unauthorized use
+
+## 5. API Usage and Restrictions
+
+### 5.1 Acceptable Use
+
+You agree to use the Service only for lawful purposes and in accordance with these Terms. Specifically, you agree to:
+
+- Submit only legitimate domain validation requests
+- Respect rate limits and quotas
+- Implement reasonable error handling
+- Cache responses appropriately to minimize redundant calls
+
+### 5.2 Prohibited Uses
+
+You may NOT use the Service to:
+
+- **Harvest Data**: Systematically extract data to build databases
+- **Spam Detection Evasion**: Test domains for spam campaign viability
+- **Malicious Activities**: Support phishing, fraud, or illegal activities
+- **Service Attacks**: Attempt denial-of-service or overwhelming requests
+- **Privacy Violations**: Process domains without proper authorization
+- **Competitive Analysis**: Reverse engineer our validation algorithms
+- **Bulk Scraping**: Submit entire domain registries or massive lists
+
+### 5.3 Automated Use Restrictions
+
+While automated use is permitted within rate limits, you must:
+
+- Include appropriate delays between requests
+- Implement exponential backoff for errors
+- Respect HTTP 429 (Too Many Requests) responses
+- Not use the Service for continuous monitoring of specific domains
+
+## 6. Fair Use Policy
+
+### 6.1 Purpose
+
+Our Fair Use Policy ensures equitable access and optimal performance for all users.
+
+### 6.2 Usage Guidelines
+
+| Plan Tier | Monthly Requests | Overage Cost    | Rate Limit |
+| --------- | ---------------- | --------------- | ---------- |
+| Basic     | 1,000            | -               | 1,000/hour |
+| Pro       | 100,000          | $0.0003/request | -          |
+| Ultra     | 1,000,000        | $0.0001/request | -          |
+
+### 6.3 Monitoring and Enforcement
+
+We reserve the right to:
+
+- Temporarily throttle excessive requests
+- Suspend access for policy violations
+
+## 7. Privacy and Data Processing
+
+### 7.1 Zero-Storage Guarantee
+
+As detailed in our [Data Protection & Privacy Policy](/privacy):
+
+- We do not store any submitted domains or email addresses
+- All processing is ephemeral and in-memory only
+- No user tracking or profiling occurs
+
+### 7.2 Your Responsibilities
+
+You represent and warrant that:
+
+- You have the right to submit domains for validation
+- Your use complies with applicable privacy laws
+- You will not submit personal data beyond domain names
+
+### 7.3 Data Processing Agreement
+
+For users requiring GDPR compliance documentation, our zero-storage architecture eliminates the need for a traditional DPA, as we do not process or store personal data.
+
+## 8. Intellectual Property Rights
+
+### 8.1 Service Ownership
+
+We retain all rights, title, and interest in:
+
+- The Service and its underlying technology
+- Our algorithms and validation methods
+- The API design and Documentation
+- Our trademarks and branding
+
+### 8.2 Your Content
+
+You retain all rights to the domains you submit for validation. By using the Service, you grant us a limited license to process these domains solely for providing validation results.
+
+### 8.3 Feedback
+
+Any feedback, suggestions, or improvements you provide become our property and may be used without compensation or attribution.
+
+## 9. Service Availability and Performance
+
+### 9.1 Uptime Target
+
+We strive to maintain 99.9% uptime, calculated monthly, excluding:
+
+- Scheduled maintenance (with advance notice)
+- Force majeure events
+- RapidAPI platform outages
+- Third-party DNS provider issues
+
+### 9.2 Performance Specifications
+
+- **Target Response Time**: Less than 20ms p99 latency
+- **Geographic Coverage**: Global via RapidAPI's infrastructure
+- **DNS Resolution**: Multiple provider redundancy
+
+### 9.3 No Service Level Agreement
+
+Unless you have a separate enterprise agreement, the Service is provided without formal SLA guarantees.
+
+## 10. Fees and Payment
+
+### 10.1 Subscription Plans
+
+All billing is handled through RapidAPI's platform. Current plans and pricing are available on our RapidAPI marketplace listing.
+
+### 10.2 Payment Terms
+
+- Billing and payment processing via RapidAPI
+- Overage charges apply per your plan terms
+
+### 10.3 Taxes
+
+You are responsible for all applicable taxes related to your use of the Service, excluding taxes on our net income.
+
+## 11. Warranties and Disclaimers
+
+### 11.1 Service Warranty
+
+We warrant that the Service will perform substantially in accordance with the Documentation under normal use.
+
+### 11.2 Disclaimers
+
+THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+
+- MERCHANTABILITY
+- FITNESS FOR A PARTICULAR PURPOSE
+- NON-INFRINGEMENT
+- ACCURACY OR COMPLETENESS OF RESULTS
+- UNINTERRUPTED OR ERROR-FREE OPERATION
+
+### 11.3 Third-Party Services
+
+We disclaim all liability for:
+
+- DNS provider accuracy or availability
+- Disposable domain list completeness
+- Third-party service interruptions
+
+## 12. Limitation of Liability
+
+### 12.1 Damages Cap
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY FOR ALL CLAIMS UNDER THESE TERMS SHALL NOT EXCEED THE FEES PAID BY YOU FOR THE SERVICE IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM.
+
+### 12.2 Exclusions
+
+IN NO EVENT SHALL WE BE LIABLE FOR:
+
+- INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES
+- LOST PROFITS, REVENUE, OR BUSINESS OPPORTUNITIES
+- DATA LOSS (NOTE: WE DON'T STORE YOUR DATA)
+- COSTS OF SUBSTITUTE SERVICES
+- DAMAGES FROM THIRD-PARTY CLAIMS
+
+### 12.3 Basis of Bargain
+
+You acknowledge that these limitations reflect the allocation of risk between the parties and form an essential basis of our bargain.
+
+## 13. RapidAPI Platform Integration
+
+### 13.1 Platform Dependency
+
+You acknowledge that:
+
+- The Service is accessible exclusively through RapidAPI
+- Service availability depends on RapidAPI platform functionality
+- We are not responsible for RapidAPI platform issues
+
+### 13.2 Data Handling Separation
+
+As detailed in our [Privacy Policy](/privacy):
+
+- We maintain zero-storage architecture
+- RapidAPI may log requests per their policies
+- You should review RapidAPI's privacy policy
+
+### 13.3 Platform Terms
+
+Your use is also subject to:
+
+- [RapidAPI Terms of Service](https://rapidapi.com/terms/)
+- [RapidAPI Privacy Policy](https://rapidapi.com/privacy/)
+- Any additional RapidAPI marketplace terms
+
+## 14. Termination
+
+### 14.1 Termination by You
+
+You may terminate these Terms at any time by:
+
+- Canceling your subscription through RapidAPI
+- Ceasing all use of the Service
+
+### 14.2 Termination by Us
+
+We may suspend or terminate your access immediately if:
+
+- You violate these Terms
+- You engage in prohibited uses
+- Your account shows suspicious activity
+- Required by law or court order
+
+### 14.3 Effect of Termination
+
+Upon termination:
+
+- Your license to use the Service ends immediately
+- You must cease all use of the Service
+- Sections that naturally survive will remain in effect
+
+## 15. Modification of Terms
+
+### 15.1 Right to Modify
+
+We reserve the right to modify these Terms at any time. Material changes will be notified through:
+
+- RapidAPI marketplace announcements
+- Documentation updates
+
+### 15.2 Acceptance of Changes
+
+Continued use of the Service after changes constitutes acceptance of the modified Terms. If you disagree with changes, discontinue use.
+
+## 16. General Provisions
+
+### 16.1 Entire Agreement
+
+These Terms and incorporated policies constitute the entire agreement between you and Valid Mint regarding the Service.
+
+### 16.2 Severability
+
+If any provision is found unenforceable, the remaining provisions shall continue in full effect.
+
+### 16.3 No Waiver
+
+Our failure to enforce any right or provision shall not constitute a waiver of that right or provision.
+
+### 16.4 Assignment
+
+You may not assign these Terms without our prior written consent. We may assign our rights and obligations without restriction.
+
+### 16.5 Force Majeure
+
+Neither party shall be liable for delays or failures due to causes beyond their reasonable control.
+
+### 16.6 Relationship
+
+Nothing in these Terms creates a partnership, joint venture, agency, or employment relationship.
+
+---
+
+## Appendix A: Quick Reference
+
+### Acceptable Use Summary
+
+**DO:**
+
+- Validate domains for legitimate business purposes
+- Implement proper error handling and retries
+- Cache results to reduce API calls
+- Report bugs and provide feedback
+
+**DON'T:**
+
+- Build domain databases from our Service
+- Support spam or malicious activities
+- Exceed rate limits or quotas
+- Share API keys or resell access
+
+### Key Policies
+
+1. **Privacy**: Zero-storage architecture - we never store your data
+2. **Fair Use**: Respect rate limits and implement reasonable delays
+3. **Security**: Keep API keys confidential and report compromises
+4. **Compliance**: Ensure you have rights to validate submitted domains
+
+---
+
+**By using the Valid Mint Email Domain Validation API, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.**
+
+**Last Updated:** June 2025  
+**Version:** 1.0
+
+**© 2025 Valid Mint. All rights reserved.**

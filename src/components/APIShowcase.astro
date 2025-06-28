@@ -1,0 +1,201 @@
+---
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Code } from '@astrojs/starlight/components';
+---
+
+<section id="api" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-serif font-semibold text-ocean-500 mb-6">
+            Simple Integration, Powerful Results
+        </h2>
+        <p class="text-xl text-storm-500 max-w-3xl mx-auto">
+        Get started in minutes with our RESTful API and clear documentation
+        </p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12" id="tab-navigation">
+      <button
+        data-tab="fast"
+        class="tab-button px-6 py-3 rounded-full cursor-pointer transition-all duration-300"
+      >
+        Fast Validation
+      </button>
+      <button
+        data-tab="full"
+        class="tab-button px-6 py-3 rounded-full cursor-pointer transition-all duration-300"
+      >
+        Full Validation
+      </button>
+    </div>
+
+    <!-- API Examples -->
+    <div class="max-w-5xl mx-auto">
+      <!-- Fast Validation Example -->
+      <div class="api-example rounded-2xl shadow-2xl border border-sand-200 overflow-hidden" data-example="fast">
+        <div class="bg-sand-50 p-6 border-b border-sand-100">
+          <h3 class="text-xl font-serif font-semibold text-ocean-500 mb-2">
+            Fast Validation
+          </h3>
+          <p class="text-storm-500">
+            Perfect for real-time form validation with lightning-fast responses
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-0">
+          <div class="p-6 border-r border-sand-100 bg-sand-50">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-serif font-semibold text-ocean-500">Request</h4>
+              <Badge variant="secondary" className="bg-green-100 text-green-700">GET</Badge>
+            </div>
+                <Code code={`
+curl --request GET 
+    --url 'https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/fast-validate?domain=gmail.com' 
+    --header 'x-rapidapi-host: valid-mint-e-mail-domain-validator.p.rapidapi.com' 
+    --header 'x-rapidapi-key: YOUR_API_KEY'
+                `} lang="shell" />
+          </div>
+          <div class="p-6 bg-sand-50">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-serif font-semibold text-ocean-500">Response</h4>
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700">JSON</Badge>
+            </div>
+              <Code code={`{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "domain": "gmail.com",
+  "is_valid": true,
+  "is_disposable": false,
+}`} lang="json" />
+          </div>
+        </div>
+        <div class="bg-sand-50 px-6 py-4 border-t border-sand-100">
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-storm-500">Response Time</span>
+            <span class="font-mono text-sage-500 font-semibold">12ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Validation Example -->
+      <div class="api-example rounded-2xl shadow-2xl border border-sand-200 overflow-hidden hidden" data-example="full">
+        <div class="bg-sand-50 p-6 border-b border-sand-100">
+          <h3 class="text-xl font-serif font-semibold text-ocean-500 mb-2">
+            Full Validation
+          </h3>
+          <p class="text-storm-500">
+            Comprehensive analysis with detailed security and DNS information
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-0">
+          <div class="p-6 border-r border-sand-100 bg-sand-50">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-serif font-semibold text-ocean-500">Request</h4>
+              <Badge variant="secondary" className="bg-green-100 text-green-700">GET</Badge>
+            </div>
+              <Code code={`
+curl --request GET 
+    --url 'https://valid-mint-e-mail-domain-validator.p.rapidapi.com/v1/validate?domain=gmail.com' 
+    --header 'x-rapidapi-host: valid-mint-e-mail-domain-validator.p.rapidapi.com' 
+    --header 'x-rapidapi-key: YOUR_API_KEY'
+                `} lang="shell" />
+          </div>
+          <div class="p-6 bg-sand-50">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-serif font-semibold text-ocean-500">Response</h4>
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700">JSON</Badge>
+            </div>
+              <Code code={`{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "domain": "gmail.com",
+  "is_valid": true,
+  "is_disposable": false,
+  "has_mx_records": true,
+  "has_a_records": true,
+  "is_potential_typo": false,
+  "suggestion": null,
+  "spf_record": {
+    "exists": true,
+    "policy": "v=spf1 include:_spf.google.com ~all",
+    "is_strict": false
+  },
+  "dmarc_record": {
+    "exists": true,
+    "policy": "v=DMARC1; p=quarantine; rua=mailto:dmarc@gmail.com",
+    "percentage": 100
+  },
+  "dkim_records": [
+    {
+      "selector": "google",
+      "exists": true,
+      "has_public_key": true
+    }
+  ],
+  "risk_score": 15,
+  "risk_level": "low",
+  "checked_at": "2024-01-20T10:30:00Z"
+}`} lang="json" />
+          </div>
+        </div>
+        <div class="bg-sand-50 px-6 py-4 border-t border-sand-100">
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-storm-500">Response Time</span>
+            <span class="font-mono text-sage-500 font-semibold">89ms</span>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<script>
+  import { atom } from 'nanostores';
+
+  // Create a nanostore for the active tab
+  const activeTab = atom('fast');
+
+  // Get all tab buttons and examples
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const apiExamples = document.querySelectorAll('.api-example');
+
+  // Function to update UI based on active tab
+  function updateUI(tab: string) {
+    // Update buttons
+    tabButtons.forEach(button => {
+      const isActive = button.getAttribute('data-tab') === tab;
+      
+      if (isActive) {
+        button.classList.remove('bg-sand-100', 'text-storm-500', 'hover:bg-sand-200');
+        button.classList.add('bg-sage-500', 'text-white', 'shadow-lg');
+      } else {
+        button.classList.remove('bg-sage-500', 'text-white', 'shadow-lg');
+        button.classList.add('bg-sand-100', 'text-storm-500', 'hover:bg-sand-200');
+      }
+    });
+
+    // Update examples
+    apiExamples.forEach(example => {
+      const exampleTab = example.getAttribute('data-example');
+      if (exampleTab === tab) {
+        example.classList.remove('hidden');
+      } else {
+        example.classList.add('hidden');
+      }
+    });
+  }
+
+  // Add click handlers to buttons
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tab = button.getAttribute('data-tab');
+      if (tab) {
+        activeTab.set(tab);
+      }
+    });
+  });
+
+  // Subscribe to store changes
+  activeTab.subscribe(tab => {
+    updateUI(tab);
+  });
+</script>
