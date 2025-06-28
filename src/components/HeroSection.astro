@@ -4,34 +4,32 @@ import { ArrowRight } from '@lucide/astro';
 ---
 
 <section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-sand-50 via-sand-100 to-sand-200">
-  <!-- Subtle background decoration -->
   <div class="absolute inset-0 overflow-hidden">
     <div class="absolute top-20 left-10 w-64 h-64 bg-sage-500/5 rounded-full blur-3xl animate-gentle-float"></div>
     <div class="absolute bottom-32 right-16 w-96 h-96 bg-coral-400/5 rounded-full blur-3xl animate-gentle-float" style="animation-delay: 2s;"></div>
   </div>
 
   <div class="relative max-w-4xl mx-auto px-6 text-center">
-    <!-- Main Headline -->
     <h1 class="text-5xl md:text-7xl font-serif font-semibold text-ocean-500 mb-8 animate-fade-in text-balance leading-tight">
       Email validation,
       <br />
       <span class="text-sage-500">thoughtfully crafted</span>
     </h1>
 
-    <!-- Supporting Statement -->
     <p class="text-xl md:text-2xl text-storm-500 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in text-balance" style="animation-delay: 0.2s;">
       A reliable API that respects your time and data. Smart domain extraction, 
       comprehensive security analysis, and consistent performance.
     </p>
 
-    <!-- Call to Action -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 animate-fade-in" style="animation-delay: 0.4s;">
-      <Button 
-        size="lg" 
-        className="bg-coral-400 hover:bg-coral-500 text-white border-0 rounded-full px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-      >
-        Start Free
-      </Button>
+      <a href="https://rapidapi.com/nardi05/api/valid-mint-e-mail-domain-validator" target="_blank">
+        <Button 
+          size="lg" 
+          className="bg-coral-400 hover:bg-coral-500 text-white border-0 rounded-full px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        >
+          Start Free
+        </Button>
+      </a>
       <a href="/docs/getting-started/">
       <Button 
         variant="ghost" 
@@ -44,7 +42,6 @@ import { ArrowRight } from '@lucide/astro';
       </a>
     </div>
 
-    <!-- Trust Line -->
     <p class="text-sm text-storm-500/70 animate-fade-in" style="animation-delay: 0.6s;">
       Start with 1,000 free validations per month
     </p>

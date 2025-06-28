@@ -1,12 +1,10 @@
 ---
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Code } from '@astrojs/starlight/components';
 ---
 
 <section id="api" class="py-24 bg-white">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <!-- Section Header -->
     <div class="text-center mb-16">
         <h2 class="text-4xl md:text-5xl font-serif font-semibold text-ocean-500 mb-6">
             Simple Integration, Powerful Results
@@ -16,7 +14,6 @@ import { Code } from '@astrojs/starlight/components';
         </p>
     </div>
 
-    <!-- Tab Navigation -->
     <div class="flex flex-wrap justify-center gap-4 mb-12" id="tab-navigation">
       <button
         data-tab="fast"
@@ -32,9 +29,7 @@ import { Code } from '@astrojs/starlight/components';
       </button>
     </div>
 
-    <!-- API Examples -->
     <div class="max-w-5xl mx-auto">
-      <!-- Fast Validation Example -->
       <div class="api-example rounded-2xl shadow-2xl border border-sand-200 overflow-hidden" data-example="fast">
         <div class="bg-sand-50 p-6 border-b border-sand-100">
           <h3 class="text-xl font-serif font-semibold text-ocean-500 mb-2">
@@ -78,7 +73,6 @@ curl --request GET
         </div>
       </div>
 
-      <!-- Full Validation Example -->
       <div class="api-example rounded-2xl shadow-2xl border border-sand-200 overflow-hidden hidden" data-example="full">
         <div class="bg-sand-50 p-6 border-b border-sand-100">
           <h3 class="text-xl font-serif font-semibold text-ocean-500 mb-2">
@@ -151,16 +145,12 @@ curl --request GET
 <script>
   import { atom } from 'nanostores';
 
-  // Create a nanostore for the active tab
   const activeTab = atom('fast');
 
-  // Get all tab buttons and examples
   const tabButtons = document.querySelectorAll('.tab-button');
   const apiExamples = document.querySelectorAll('.api-example');
 
-  // Function to update UI based on active tab
   function updateUI(tab: string) {
-    // Update buttons
     tabButtons.forEach(button => {
       const isActive = button.getAttribute('data-tab') === tab;
       
@@ -173,7 +163,6 @@ curl --request GET
       }
     });
 
-    // Update examples
     apiExamples.forEach(example => {
       const exampleTab = example.getAttribute('data-example');
       if (exampleTab === tab) {
@@ -184,7 +173,6 @@ curl --request GET
     });
   }
 
-  // Add click handlers to buttons
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
       const tab = button.getAttribute('data-tab');
@@ -194,7 +182,6 @@ curl --request GET
     });
   });
 
-  // Subscribe to store changes
   activeTab.subscribe(tab => {
     updateUI(tab);
   });

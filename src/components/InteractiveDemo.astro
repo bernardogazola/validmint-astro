@@ -17,7 +17,6 @@ import { Clock, Target } from '@lucide/astro';
     </div>
 
     <Card className="p-8 max-w-2xl mx-auto border-sand-200 shadow-lg">
-      <!-- Mode Toggle -->
       <div class="flex items-center justify-center mb-8">
         <div class="flex bg-sand-100 rounded-full p-1">
           <button
@@ -37,7 +36,6 @@ import { Clock, Target } from '@lucide/astro';
         </div>
       </div>
 
-      <!-- Input -->
       <div class="flex gap-4 mb-8">
         <Input
           id="validation-input"
@@ -53,7 +51,6 @@ import { Clock, Target } from '@lucide/astro';
         </Button>
       </div>
 
-      <!-- Results -->
       <div id="validation-result" class="hidden bg-sand-50 rounded-lg p-6 animate-fade-in">
         <div class="flex items-center justify-between mb-4">
           <span class="font-mono text-sm text-storm-500" id="result-domain"></span>
@@ -126,7 +123,6 @@ import { Clock, Target } from '@lucide/astro';
     fullModeBtn?.classList.remove('text-storm-500');
   });
   
-  // Validation functionality
   const input = document.getElementById('validation-input') as HTMLInputElement;
   const validateBtn = document.getElementById('validate-btn') as HTMLButtonElement;
   const resultContainer = document.getElementById('validation-result');
@@ -140,7 +136,6 @@ import { Clock, Target } from '@lucide/astro';
     input.ariaInvalid = 'false';
     if (isLoading.get()) return;
 
-    // Show loading state
     isLoading.set(true);
     if (validateBtn) {
       validateBtn.textContent = 'Validating...';
@@ -148,7 +143,6 @@ import { Clock, Target } from '@lucide/astro';
       validateBtn.classList.add('opacity-70');
     }
 
-    // Hide previous results
     if (resultContainer) {
       resultContainer.classList.add('hidden');
     }
@@ -173,7 +167,6 @@ import { Clock, Target } from '@lucide/astro';
         throw new Error('No data received from validation');
       }
 
-      // Update UI with results
       if (resultContainer) {
         resultContainer.classList.remove('hidden');
         
@@ -196,7 +189,6 @@ import { Clock, Target } from '@lucide/astro';
           }`;
         }
         
-        // Use actual response time or performance data if available
         if (timeEl) {
           timeEl.textContent = `${data.performance.total_time_ms}ms`;
         }
@@ -205,12 +197,10 @@ import { Clock, Target } from '@lucide/astro';
           disposableEl.textContent = data.is_disposable ? 'Yes' : 'No';
         }
         
-        // Show/hide full details based on mode and data availability
         if (fullDetailsEl) {
           if (!isFastMode.get() && data.has_mx_records !== undefined) {
             fullDetailsEl.classList.remove('hidden');
             
-            // Update full validation details
             if (mxRecordsEl) {
               mxRecordsEl.textContent = data.has_mx_records ? '✓' : '✗';
               mxRecordsEl.className = data.has_mx_records ? 'text-sage-600' : 'text-red-600';
@@ -232,7 +222,6 @@ import { Clock, Target } from '@lucide/astro';
             if (riskEl) {
               const riskScore = data.risk_score !== undefined ? data.risk_score : 'N/A';
               riskEl.textContent = `${riskScore}/10 - ${data.risk_level.charAt(0).toUpperCase() + data.risk_level.slice(1)}`;
-              // Color code based on risk level
               if (data.risk_level === 'low') {
                 riskEl.className = 'ml-2 font-mono text-sage-600';
               } else if (data.risk_level === 'medium') {
@@ -253,7 +242,6 @@ import { Clock, Target } from '@lucide/astro';
     } catch (error) {
       console.error('Validation error:', error);
       
-      // Show error state
       if (resultContainer) {
         resultContainer.classList.remove('hidden');
         resultContainer.innerHTML = `
@@ -264,7 +252,6 @@ import { Clock, Target } from '@lucide/astro';
         `;
       }
     } finally {
-      // Reset button state
       isLoading.set(false);
       if (validateBtn) {
         validateBtn.textContent = 'Validate';
