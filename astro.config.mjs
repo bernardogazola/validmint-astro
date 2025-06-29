@@ -15,6 +15,20 @@ export default defineConfig({
       title: "Valid Mint",
       description:
         "High-performance email domain validation API with sub-20ms latency",
+      head: [
+        {
+          tag: "script",
+          content:
+            "window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };",
+        },
+        {
+          tag: "script",
+          attrs: {
+            src: "/_vercel/insights/script.js",
+            defer: true,
+          },
+        },
+      ],
       sidebar: [
         {
           label: "Getting Started",
