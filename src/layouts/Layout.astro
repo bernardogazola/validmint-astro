@@ -3,6 +3,7 @@ import "../styles/pages.css";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/crimson-pro";
 import "@fontsource-variable/jetbrains-mono";
+import Analytics from "@vercel/analytics/astro"
 
 export interface Props {
   title: string;
@@ -34,5 +35,6 @@ const { title, description = "A reliable email validation API that respects your
 
   <body>
     <slot />
+    <Analytics />
   </body>
 </html>
