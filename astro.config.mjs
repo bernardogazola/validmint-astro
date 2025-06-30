@@ -9,6 +9,7 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://validmint.com",
   integrations: [
     starlight({
       plugins: [starlightThemeFlexoki()],
@@ -16,6 +17,20 @@ export default defineConfig({
       description:
         "High-performance email domain validation API with sub-20ms latency",
       head: [
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "https://validmint.com/og-image.png",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:image",
+            content: "https://validmint.com/og-image.png",
+          },
+        },
         {
           tag: "script",
           content:
@@ -61,7 +76,36 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ["@radix-ui/*"],
+    },
+    build: {
+      cssMinify: "lightningcss",
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            "react-vendor": ["react", "react-dom"],
+            "ui-vendor": [
+              "@radix-ui/react-dialog",
+              "@radix-ui/react-dropdown-menu",
+              "@radix-ui/react-tabs",
+            ],
+          },
+        },
+      },
+    },
   },
 
   adapter: vercel(),
+
+  compressHTML: true,
+
+  image: {
+    remotePatterns: [{ protocol: "https" }],
+  },
+
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
 });

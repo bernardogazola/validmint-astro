@@ -8,9 +8,21 @@ import APIShowcase from '../components/APIShowcase.astro';
 import Footer from '../components/Footer.astro';
 import CTASection from '../components/CTASection.astro';
 import '../styles/global.css';
+import { generateWebsiteSchema, generateOrganizationSchema, generateAPISchema, combineStructuredData } from '../utils/seo';
+
+const structuredData = combineStructuredData(
+  generateWebsiteSchema(),
+  generateOrganizationSchema(),
+  generateAPISchema()
+);
 ---
 
-<Layout title="Valid Mint - Email Domain Validation API">
+<Layout 
+  title="Valid Mint - Email Domain Validation API | Fast, Secure, Reliable"
+  description="High-performance email validation API with sub-20ms latency. Comprehensive domain security analysis, smart email extraction, and 99.9% uptime. Start free today."
+  structuredData={structuredData}
+  keywords="email validation api, email verification service, domain validation, email security api, smtp validation, mx record check, email deliverability, email domain checker, email api service, real-time email validation"
+>
   <div id="root" class="min-h-screen">
     <Navigation />
     <HeroSection />
